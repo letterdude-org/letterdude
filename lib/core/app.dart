@@ -7,9 +7,24 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = ThemeData(
+      cardTheme: const CardTheme(elevation: 0),
+      colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.indigo),
+      fontFamily: 'gg sans',
+    );
+
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: theme.copyWith(
+        appBarTheme: AppBarTheme(
+          elevation: 0,
+          titleSpacing: 10,
+          titleTextStyle: theme.textTheme.titleMedium
+              ?.copyWith(color: theme.colorScheme.onPrimary),
+          toolbarHeight: 40,
+        ),
+      ),
       title: Constants.appName,
-      theme: ThemeData(fontFamily: 'gg sans'),
       routes: {
         HomePage.route: (context) => const HomePage(),
       },

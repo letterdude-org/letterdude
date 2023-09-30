@@ -26,6 +26,7 @@ linter:
     avoid_function_literals_in_foreach_calls: true
     null_closures: true
     prefer_single_quotes: true
+    sort_child_properties_last: true
     sort_constructors_first: true
     sort_pub_dependencies: true
 # Additional information about this file can be found at
