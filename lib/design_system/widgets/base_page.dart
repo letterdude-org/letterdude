@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:letterdude/utils/constants.dart';
+import 'package:letterdude/core/utils/constants.dart';
 
 class BasePage extends StatelessWidget {
   const BasePage({

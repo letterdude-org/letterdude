@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:letterdude/widgets/base_page.dart';
+import 'package:letterdude/design_system/widgets/base_page.dart';
 import 'package:split_view/split_view.dart';
 
 class HomePage extends StatelessWidget {
@@ -15,9 +15,13 @@ class HomePage extends StatelessWidget {
           child: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(8),
-              child: Text(
-                'Collections',
-                style: Theme.of(context).textTheme.titleSmall,
+              child: Column(
+                children: [
+                  Text(
+                    'Collections',
+                    style: Theme.of(context).textTheme.titleSmall,
+                  ),
+                ],
               ),
             ),
           ),

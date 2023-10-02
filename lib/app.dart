@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:letterdude/pages/home_page.dart';
-import 'package:letterdude/utils/constants.dart';
+import 'package:letterdude/app/screens/home_page.dart';
+import 'package:letterdude/core/utils/constants.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
