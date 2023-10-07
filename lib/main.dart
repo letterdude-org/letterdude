@@ -8,12 +8,12 @@ import 'package:path_provider/path_provider.dart';
 
 void main() {
   setupLocator();
-  _initDatabase();
   WidgetsFlutterBinding.ensureInitialized();
+  _initDatabase();
   runApp(const App());
 }
 
-_initDatabase() async {
+void _initDatabase() async {
   const dbFileName = 'letterdude.db';
   final appDocumentDir = await getApplicationDocumentsDirectory();
   final dbPath = join(appDocumentDir.path, dbFileName);
