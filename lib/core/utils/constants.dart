@@ -3,5 +3,5 @@ class Constants {
 }
 
 class DatabaseStores {
-  static const String REQUEST_HISTORY = 'request_history';
+  static const String requestHistory = 'request_history';
 }

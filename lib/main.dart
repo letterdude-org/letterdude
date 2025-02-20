@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:letterdude/core/di/locator.dart';
-import 'package:sembast/sembast.dart';
 import 'package:sembast/sembast_io.dart';
 import 'package:letterdude/app.dart';
 import 'package:path/path.dart';

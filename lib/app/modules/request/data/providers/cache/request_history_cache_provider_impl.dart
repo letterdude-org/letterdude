@@ -6,8 +6,7 @@ import 'package:sembast/sembast.dart';
 
 class RequestHistoryCacheProviderImpl implements RequestHistoryCacheProvider {
   final _database = locator.get<Database>();
-  final _historyStore =
-      intMapStoreFactory.store(DatabaseStores.REQUEST_HISTORY);
+  final _historyStore = intMapStoreFactory.store(DatabaseStores.requestHistory);
 
   @override
   Future<List<Request>> getHistory() async {
