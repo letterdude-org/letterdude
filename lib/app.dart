@@ -9,7 +9,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = ThemeData(
       cardTheme: const CardTheme(elevation: 0),
-      colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.indigo),
+      colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
       fontFamily: 'gg sans',
     );
 
@@ -22,6 +22,7 @@ class App extends StatelessWidget {
           titleTextStyle: theme.textTheme.titleMedium
               ?.copyWith(color: theme.colorScheme.onPrimary),
           toolbarHeight: 40,
+          color: theme.colorScheme.primary,
         ),
       ),
       title: Constants.appName,
