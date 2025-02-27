@@ -48,7 +48,10 @@ class _SidebarState extends State<Sidebar> with TickerProviderStateMixin {
                         children: [
                           Text(
                             tab,
-                            style: Theme.of(context).textTheme.titleSmall,
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleSmall
+                                ?.copyWith(fontSize: 12),
                           ),
                         ],
                       ),

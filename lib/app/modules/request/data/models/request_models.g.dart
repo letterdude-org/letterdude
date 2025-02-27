@@ -9,23 +9,23 @@ part of 'request_models.dart';
 Request _$RequestFromJson(Map<String, dynamic> json) => Request(
       id: json['id'] as String,
       name: json['name'] as String,
-      method: $enumDecode(_$MethodsEnumMap, json['method']),
+      method: $enumDecode(_$RequestMethodEnumMap, json['method']),
       uri: Uri.parse(json['uri'] as String),
     );
 
 Map<String, dynamic> _$RequestToJson(Request instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'method': _$MethodsEnumMap[instance.method]!,
+      'method': _$RequestMethodEnumMap[instance.method]!,
       'uri': instance.uri.toString(),
     };
 
-const _$MethodsEnumMap = {
-  Methods.get: 'get',
-  Methods.post: 'post',
-  Methods.put: 'put',
-  Methods.delete: 'delete',
-  Methods.option: 'option',
+const _$RequestMethodEnumMap = {
+  RequestMethod.get: 'get',
+  RequestMethod.post: 'post',
+  RequestMethod.put: 'put',
+  RequestMethod.delete: 'delete',
+  RequestMethod.options: 'options',
 };
 
 Collection _$CollectionFromJson(Map<String, dynamic> json) => Collection(
