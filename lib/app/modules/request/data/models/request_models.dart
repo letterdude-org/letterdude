@@ -2,7 +2,16 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'request_models.g.dart';
 
-enum Methods { get, post, put, delete, option }
+enum RequestMethod {
+  get('GET'),
+  post('POST'),
+  put('PUT'),
+  delete('DELETE'),
+  options('OPTIONS');
+
+  const RequestMethod(this.value);
+  final String value;
+}
 
 @JsonSerializable()
 class Request {
@@ -18,7 +27,7 @@ class Request {
 
   String id;
   String name;
-  Methods method;
+  RequestMethod method;
   Uri uri;
 
   Map<String, dynamic> toJson() => _$RequestToJson(this);
