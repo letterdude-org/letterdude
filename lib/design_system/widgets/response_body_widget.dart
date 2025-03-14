@@ -2,35 +2,35 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_code_editor/flutter_code_editor.dart';
-import 'package:flutter_highlight/themes/github.dart';
+import 'package:flutter_highlight/themes/dracula.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:http/http.dart' as http;
 import 'package:highlight/languages/xml.dart';
 import 'package:highlight/languages/json.dart';
 import 'package:highlight/languages/plaintext.dart';
+import 'package:letterdude/app/modules/request/blocs/request/request_bloc.dart';
 import 'package:letterdude/core/utils/logger.dart';
 import 'package:xml/xml.dart';
 
-class ResponseWidget extends StatefulWidget {
-  const ResponseWidget({super.key, required this.response});
+class ResponseBodyWidget extends StatefulWidget {
+  const ResponseBodyWidget({super.key, required this.result});
 
-  final http.Response response;
+  final RequestSuccess result;
 
   @override
-  State<ResponseWidget> createState() => _ResponseWidgetState();
+  State<ResponseBodyWidget> createState() => _ResponseBodyWidgetState();
 }
 
-class _ResponseWidgetState extends State<ResponseWidget> {
+class _ResponseBodyWidgetState extends State<ResponseBodyWidget> {
   late final CodeController controller;
 
   @override
   void initState() {
     super.initState();
     final contentType = ResponseContentType.fromString(
-      (widget.response.headers['content-type'] ?? '').split(';')[0],
+      (widget.result.response.headers['content-type'] ?? '').split(';')[0],
     );
 
-    final body = formatResponseBody(widget.response.body, contentType);
+    final body = formatResponseBody(widget.result.response.body, contentType);
 
     controller = CodeController(
       text: body,
@@ -40,34 +40,23 @@ class _ResponseWidgetState extends State<ResponseWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text('Status: ${widget.response.statusCode}'),
-        Expanded(
-          child: CodeTheme(
-            data: CodeThemeData(styles: githubTheme),
-            child: SingleChildScrollView(
-              physics: ClampingScrollPhysics(),
-              scrollDirection: Axis.vertical,
-              child: CodeField(
-                textSelectionTheme: TextSelectionThemeData(
-                  cursorColor: Theme.of(context).colorScheme.primary,
-                  selectionColor: Theme.of(context)
-                      .colorScheme
-                      .primary
-                      .withValues(alpha: 0.3),
-                  selectionHandleColor: Theme.of(context).colorScheme.primary,
-                ),
-                textStyle: GoogleFonts.jetBrainsMono(fontSize: 12),
-                wrap: true,
-                controller: controller,
-                readOnly: true,
-              ),
-            ),
+    return SingleChildScrollView(
+      physics: const ClampingScrollPhysics(),
+      child: CodeTheme(
+        data: CodeThemeData(styles: draculaTheme),
+        child: CodeField(
+          textSelectionTheme: TextSelectionThemeData(
+            cursorColor: Theme.of(context).colorScheme.primary,
+            selectionColor:
+                Theme.of(context).colorScheme.primary.withValues(alpha: 0.3),
+            selectionHandleColor: Theme.of(context).colorScheme.primary,
           ),
+          textStyle: GoogleFonts.jetBrainsMono(fontSize: 12),
+          wrap: true,
+          controller: controller,
+          readOnly: true,
         ),
-      ],
+      ),
     );
   }
 }

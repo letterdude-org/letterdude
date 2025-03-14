@@ -14,7 +14,8 @@ class _RequestScreenState extends State<RequestScreen> {
   final List<String> methods = ['GET', 'POST', 'PUT', 'DELETE'];
 
   RequestMethod selectedMethod = RequestMethod.get;
-  String url = '';
+  final controller =
+      TextEditingController(text: 'https://jsonplaceholder.typicode.com/users');
   final FocusNode textFieldFocusNode = FocusNode();
 
   void _makeRequest(RequestMethod method, String url) {
@@ -33,7 +34,7 @@ class _RequestScreenState extends State<RequestScreen> {
               children: [
                 Expanded(
                   child: TextField(
-                    onChanged: (value) => url = value,
+                    controller: controller,
                     focusNode: textFieldFocusNode,
                     decoration: InputDecoration(
                       prefixIcon: SizedBox(
@@ -93,7 +94,8 @@ class _RequestScreenState extends State<RequestScreen> {
                   ),
                 ),
                 MaterialButton(
-                  onPressed: () => _makeRequest(selectedMethod, url),
+                  onPressed: () =>
+                      _makeRequest(selectedMethod, controller.text),
                   color: Theme.of(context).colorScheme.primary,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.zero,

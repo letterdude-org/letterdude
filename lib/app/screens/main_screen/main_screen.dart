@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:letterdude/app/screens/main_screen/request.dart';
-import 'package:letterdude/app/screens/main_screen/result.dart';
+import 'package:letterdude/app/screens/main_screen/request_screen.dart';
+import 'package:letterdude/app/screens/main_screen/response_screen.dart';
 import 'package:split_view/split_view.dart';
 
 class MainScreen extends StatelessWidget {

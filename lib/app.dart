@@ -9,7 +9,11 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = ThemeData(
       cardTheme: const CardTheme(elevation: 0),
-      colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: const Color.fromARGB(255, 244, 244, 245),
+        brightness: Brightness.dark,
+        surface: Colors.grey.shade900,
+      ),
       fontFamily: 'gg sans',
     );
 
@@ -27,7 +31,7 @@ class App extends StatelessWidget {
       ),
       title: Constants.appName,
       routes: {
-        HomePage.route: (context) => const HomePage(),
+        HomePage.route: (context) => HomePage(),
       },
     );
   }
