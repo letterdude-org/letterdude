@@ -22,6 +22,8 @@ class BasePage extends StatelessWidget {
             icon: const Icon(Icons.settings),
             splashRadius: 18,
             tooltip: 'Settings',
+            style: Theme.of(context).iconButtonTheme.style,
+            color: Theme.of(context).colorScheme.onPrimary,
           ),
         ],
       ),

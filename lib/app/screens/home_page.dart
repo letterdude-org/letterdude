@@ -29,7 +29,16 @@ class HomePage extends StatelessWidget {
           gripColorActive: Theme.of(context).colorScheme.primary,
           gripSize: 2,
           viewMode: SplitViewMode.Horizontal,
-          controller: SplitViewController(weights: [0.15, 0.85]),
+          controller: SplitViewController(
+            weights: [0.2, 0.8],
+            limits: [
+              WeightLimit(min: 0.2, max: 0.2),
+              WeightLimit(min: 0.8, max: 0.8),
+            ],
+          ),
+          onWeightChanged: (value) => {
+            print(value),
+          },
           children: const [
             Sidebar(),
             MainScreen(),

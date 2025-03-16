@@ -46,12 +46,12 @@ class _SidebarState extends State<Sidebar> with TickerProviderStateMixin {
                     .map(
                       (tab) => Column(
                         children: [
-                          Text(
-                            tab,
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleSmall
-                                ?.copyWith(fontSize: 12),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              tab,
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
                           ),
                         ],
                       ),
