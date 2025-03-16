@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:letterdude/app/modules/request/blocs/request/request_bloc.dart';
-import 'package:letterdude/core/utils/response_color.dart';
-import 'package:letterdude/core/utils/stringify_bytes.dart';
+import 'package:letterdude/core/utils/generics.dart';
 
 class ResponseOverviewWidget extends StatelessWidget {
   const ResponseOverviewWidget({super.key, required this.result});

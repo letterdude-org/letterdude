@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class ResponseCookiesWidget extends StatelessWidget {
-  final Map<String, String> headers;
-
   const ResponseCookiesWidget({
     super.key,
     required this.headers,
   });
+
+  final Map<String, String> headers;
 
   Map<String, String> _parseCookies() {
     final cookies = <String, String>{};

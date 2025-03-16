@@ -22,7 +22,7 @@ class RequestHistorySuccess extends RequestHistoryState {
   final List<Request> requests;
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [requests];
 }
 
 class RequestHistoryError extends RequestHistoryState {

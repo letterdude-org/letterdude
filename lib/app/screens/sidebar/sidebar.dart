@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:letterdude/app/screens/sidebar/activity.dart';
 import 'package:letterdude/app/screens/sidebar/collections.dart';
+
+import '../../modules/request/blocs/request_history/request_history_bloc.dart';
 
 class Sidebar extends StatefulWidget {
   const Sidebar({super.key});
@@ -76,8 +79,10 @@ class _SidebarState extends State<Sidebar> with TickerProviderStateMixin {
           alignment: WrapAlignment.end,
           children: [
             IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.settings),
+              onPressed: () {
+                context.read<RequestHistoryBloc>().add(ClearRequestHistory());
+              },
+              icon: const Icon(Icons.delete_forever),
               splashRadius: 18,
               tooltip: 'Settings',
             ),

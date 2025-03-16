@@ -17,6 +17,13 @@ class RequestHistoryCacheProviderImpl implements RequestHistoryCacheProvider {
   @override
   Future<void> saveRequest(Request request) async {
     await _database.transaction((transaction) async {
+      final existingRequest = await _historyStore.find(
+        transaction,
+        finder: Finder(filter: Filter.equals('id', request.id)),
+      );
+      if (existingRequest.isNotEmpty) {
+        return;
+      }
       final requestCount = await _historyStore.count(transaction);
       if (requestCount == 30) {
         final requests = await _historyStore.find(transaction);
@@ -32,5 +39,10 @@ class RequestHistoryCacheProviderImpl implements RequestHistoryCacheProvider {
   Future deleteRequest(Request request) async {
     return await _historyStore.delete(_database,
         finder: Finder(filter: Filter.equals('id', request.id)));
+  }
+
+  @override
+  Future<void> clearHistory() async {
+    await _historyStore.drop(_database);
   }
 }

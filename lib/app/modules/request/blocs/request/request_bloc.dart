@@ -21,13 +21,19 @@ class RequestBloc extends Bloc<RequestEvent, RequestState> {
           RequestMethod.put => await http.put(uri),
           RequestMethod.delete => await http.delete(uri),
           RequestMethod.options => await http.head(uri),
+          RequestMethod.patch => await http.patch(uri),
         };
         final endTime = DateTime.now();
         final duration = endTime.difference(startTime).inMilliseconds;
-        print('ye');
-        print(response.headers['cookie']);
-        print('Response ${response.statusCode} in $duration ms');
-        emit(RequestSuccess(response, duration));
+        final request = Request(
+          id: '${event.method} ${event.url}',
+          name: event.url,
+          uri: uri,
+          method: event.method,
+          createdAt: DateTime.now(),
+          updatedAt: DateTime.now(),
+        );
+        emit(RequestSuccess(response, request, duration));
       } catch (e) {
         logger.e('RequestBloc.MakeRequest ERROR');
         logger.e(e);

@@ -17,14 +17,16 @@ class RequestInProgress extends RequestState {
 class RequestSuccess extends RequestState {
   const RequestSuccess(
     this.response,
+    this.request,
     this.duration,
   );
 
   final http.Response response;
+  final Request request;
   final int duration;
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [request, duration];
 }
 
 class RequestError extends RequestState {
