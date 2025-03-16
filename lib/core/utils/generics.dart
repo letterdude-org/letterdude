@@ -1,3 +1,25 @@
+import 'package:flutter/material.dart';
+
+Color getResponseStatusColor(int statusCode) {
+  if (statusCode >= 200 && statusCode < 300) {
+    return Colors.green;
+  }
+  if (statusCode >= 300 && statusCode < 400) {
+    return Colors.orange;
+  }
+  if (statusCode >= 400) {
+    return Colors.red;
+  }
+  return Colors.grey;
+}
+
+String stringifyBytes(int bytes) {
+  if (bytes < 1024) {
+    return '$bytes Bytes';
+  }
+  return '${(bytes / 1024).toStringAsFixed(2)} KB';
+}
+
 String stringifyMilliseconds(int milliseconds) {
   if (milliseconds == 0) {
     return '0 ms';

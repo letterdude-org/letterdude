@@ -20,4 +20,9 @@ class RequestHistoryRepositoryImpl extends RequestHistoryRepository {
   Future<void> saveRequest(Request request) {
     return _cacheProvider.saveRequest(request);
   }
+
+  @override
+  Future<void> clearHistory() {
+    return _cacheProvider.clearHistory();
+  }
 }

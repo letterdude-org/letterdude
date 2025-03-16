@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:letterdude/app/modules/request/blocs/request/request_bloc.dart';
+import 'package:letterdude/app/modules/request/blocs/request_history/request_history_bloc.dart';
 import 'package:letterdude/app/modules/request/data/models/request_models.dart';
 
 class RequestScreen extends StatefulWidget {
@@ -24,93 +25,102 @@ class _RequestScreenState extends State<RequestScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8),
-      child: Column(
-        children: [
-          IntrinsicHeight(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: controller,
-                    focusNode: textFieldFocusNode,
-                    decoration: InputDecoration(
-                      prefixIcon: SizedBox(
-                        width: 100,
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: DropdownButtonHideUnderline(
-                                child: ButtonTheme(
-                                  alignedDropdown: true,
-                                  child: DropdownButton<String>(
-                                    borderRadius: BorderRadius.circular(8),
-                                    padding: EdgeInsets.symmetric(
-                                      vertical: 12,
-                                      horizontal: 0,
+    return BlocListener<RequestBloc, RequestState>(
+      listener: (context, state) {
+        if (state is RequestSuccess) {
+          context
+              .read<RequestHistoryBloc>()
+              .add(AddRequestHistory(state.request));
+        }
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(8),
+        child: Column(
+          children: [
+            IntrinsicHeight(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: controller,
+                      focusNode: textFieldFocusNode,
+                      decoration: InputDecoration(
+                        prefixIcon: SizedBox(
+                          width: 100,
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: DropdownButtonHideUnderline(
+                                  child: ButtonTheme(
+                                    alignedDropdown: true,
+                                    child: DropdownButton<String>(
+                                      borderRadius: BorderRadius.circular(8),
+                                      padding: EdgeInsets.symmetric(
+                                        vertical: 12,
+                                        horizontal: 0,
+                                      ),
+                                      value: selectedMethod.value,
+                                      isExpanded: true,
+                                      isDense: true,
+                                      icon: Icon(
+                                        Icons.arrow_drop_down,
+                                        size: 20,
+                                      ),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          selectedMethod = RequestMethod.values
+                                              .firstWhere(
+                                                  (e) => e.value == value);
+                                        });
+                                        textFieldFocusNode.requestFocus();
+                                      },
+                                      items: methods
+                                          .map<DropdownMenuItem<String>>(
+                                              (String value) {
+                                        return DropdownMenuItem<String>(
+                                          value: value,
+                                          child: Text(value),
+                                        );
+                                      }).toList(),
                                     ),
-                                    value: selectedMethod.value,
-                                    isExpanded: true,
-                                    isDense: true,
-                                    icon: Icon(
-                                      Icons.arrow_drop_down,
-                                      size: 20,
-                                    ),
-                                    onChanged: (value) {
-                                      setState(() {
-                                        selectedMethod = RequestMethod.values
-                                            .firstWhere(
-                                                (e) => e.value == value);
-                                      });
-                                      textFieldFocusNode.requestFocus();
-                                    },
-                                    items: methods
-                                        .map<DropdownMenuItem<String>>(
-                                            (String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Text(value),
-                                      );
-                                    }).toList(),
                                   ),
                                 ),
                               ),
-                            ),
-                            VerticalDivider(
-                              width: 2,
-                              color: Theme.of(context).colorScheme.outline,
-                            ),
-                          ],
+                              VerticalDivider(
+                                width: 2,
+                                color: Theme.of(context).colorScheme.outline,
+                              ),
+                            ],
+                          ),
                         ),
+                        border: OutlineInputBorder(
+                          gapPadding: 0,
+                          borderRadius: BorderRadius.zero,
+                        ),
+                        contentPadding: EdgeInsets.all(10),
                       ),
-                      border: OutlineInputBorder(
-                        gapPadding: 0,
-                        borderRadius: BorderRadius.zero,
-                      ),
-                      contentPadding: EdgeInsets.all(10),
                     ),
                   ),
-                ),
-                MaterialButton(
-                  onPressed: () =>
-                      _makeRequest(selectedMethod, controller.text),
-                  color: Theme.of(context).colorScheme.primary,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.zero,
-                  ),
-                  child: Text(
-                    'Send',
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.onPrimary,
+                  MaterialButton(
+                    onPressed: () =>
+                        _makeRequest(selectedMethod, controller.text),
+                    color: Theme.of(context).colorScheme.primary,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.zero,
+                    ),
+                    child: Text(
+                      'Send',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onPrimary,
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          )
-        ],
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
