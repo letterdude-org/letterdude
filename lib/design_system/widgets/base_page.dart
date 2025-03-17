@@ -17,7 +17,7 @@ class BasePage extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              // TODO: settings
+              // TODO(elbarae1921): settings page.
             },
             icon: const Icon(Icons.settings),
             splashRadius: 18,

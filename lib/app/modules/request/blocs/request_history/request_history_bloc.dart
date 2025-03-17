@@ -23,6 +23,47 @@ class RequestHistoryBloc
         emit(RequestHistoryError(e));
       }
     });
+
+    on<AddRequestHistory>((event, emit) async {
+      emit(RequestHistoryInProgress());
+      try {
+        await _requestHistoryRepository.saveRequest(event.request);
+        final requests = await _requestHistoryRepository.getHistory();
+        emit(RequestHistorySuccess(requests));
+      } catch (e) {
+        logger.e('RequestHistoryBloc.AddRequestHistory ERROR');
+        logger.e(e);
+
+        emit(RequestHistoryError(e));
+      }
+    });
+
+    on<DeleteRequestHistory>((event, emit) async {
+      emit(RequestHistoryInProgress());
+      try {
+        await _requestHistoryRepository.deleteRequest(event.request);
+        final requests = await _requestHistoryRepository.getHistory();
+        emit(RequestHistorySuccess(requests));
+      } catch (e) {
+        logger.e('RequestHistoryBloc.DeleteRequestHistory ERROR');
+        logger.e(e);
+
+        emit(RequestHistoryError(e));
+      }
+    });
+
+    on<ClearRequestHistory>((event, emit) async {
+      emit(RequestHistoryInProgress());
+      try {
+        await _requestHistoryRepository.clearHistory();
+        emit(RequestHistorySuccess([]));
+      } catch (e) {
+        logger.e('RequestHistoryBloc.ClearRequestHistory ERROR');
+        logger.e(e);
+
+        emit(RequestHistoryError(e));
+      }
+    });
   }
 
   final RequestHistoryRepository _requestHistoryRepository = locator.get();
