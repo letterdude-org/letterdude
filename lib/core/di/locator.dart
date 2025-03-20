@@ -1,4 +1,8 @@
 import 'package:get_it/get_it.dart';
+import 'package:letterdude/app/modules/collection/data/providers/cache/collections_cache_provider.dart';
+import 'package:letterdude/app/modules/collection/data/providers/cache/collections_cache_provider_impl.dart';
+import 'package:letterdude/app/modules/collection/data/repository/collections_repository.dart';
+import 'package:letterdude/app/modules/collection/data/repository/collections_repository_impl.dart';
 import 'package:letterdude/app/modules/request/data/providers/cache/request_history_cache_provider.dart';
 import 'package:letterdude/app/modules/request/data/providers/cache/request_history_cache_provider_impl.dart';
 import 'package:letterdude/app/modules/request/data/repository/request_history_repository.dart';
@@ -26,5 +30,11 @@ Future<void> setupLocator() async {
   );
   locator.registerSingleton<RequestHistoryRepository>(
     RequestHistoryRepositoryImpl(),
+  );
+  locator.registerSingleton<CollectionsCacheProvider>(
+    CollectionsCacheProviderImpl(),
+  );
+  locator.registerSingleton<CollectionsRepository>(
+    CollectionsRepositoryImpl(),
   );
 }

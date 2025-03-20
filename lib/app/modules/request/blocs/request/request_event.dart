@@ -13,3 +13,13 @@ class MakeRequest extends RequestEvent {
   @override
   List<Object?> get props => [method, url];
 }
+
+class LoadRequest extends RequestEvent {
+  const LoadRequest({required this.request, this.collection});
+
+  final Request request;
+  final Collection? collection;
+
+  @override
+  List<Object?> get props => [request, collection];
+}

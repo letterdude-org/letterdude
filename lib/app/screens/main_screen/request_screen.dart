@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:letterdude/app/modules/collection/blocs/collections/collections_bloc.dart';
 import 'package:letterdude/app/modules/request/blocs/request/request_bloc.dart';
 import 'package:letterdude/app/modules/request/blocs/request_history/request_history_bloc.dart';
 import 'package:letterdude/app/modules/request/data/models/request_models.dart';
@@ -12,7 +13,15 @@ class RequestScreen extends StatefulWidget {
 }
 
 class _RequestScreenState extends State<RequestScreen> {
-  final List<String> methods = ['GET', 'POST', 'PUT', 'DELETE'];
+  final List<String> methods = [
+    'GET',
+    'POST',
+    'PUT',
+    'PATCH',
+    'DELETE',
+    'OPTIONS',
+    'HEAD'
+  ];
 
   RequestMethod selectedMethod = RequestMethod.get;
   final controller =
@@ -30,7 +39,18 @@ class _RequestScreenState extends State<RequestScreen> {
         if (state is RequestSuccess) {
           context
               .read<RequestHistoryBloc>()
-              .add(AddRequestHistory(state.request));
+              .add(AddRequestHistory(state.activeRequest.request));
+          if (state.activeRequest.collection != null) {
+            context.read<CollectionsBloc>().add(UpdateCollectionRequest(
+                  state.activeRequest.collection!,
+                  state.activeRequest.request,
+                ));
+          }
+        }
+        if (state is RequestLoaded) {
+          controller.text = state.activeRequest.request.uri?.toString() ?? '';
+          selectedMethod = state.activeRequest.request.method;
+          // TODO(elbarae1921): updated any additional fields
         }
       },
       child: Padding(

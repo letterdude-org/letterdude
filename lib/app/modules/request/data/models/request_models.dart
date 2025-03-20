@@ -27,7 +27,8 @@ enum RequestMethod {
   put('PUT'),
   patch('PATCH'),
   delete('DELETE'),
-  options('OPTIONS');
+  options('OPTIONS'),
+  head('HEAD');
 
   const RequestMethod(this.value);
   final String value;
@@ -41,7 +42,7 @@ class Request extends BaseModel with EquatableMixin {
     required super.updatedAt,
     required this.name,
     required this.method,
-    required this.uri,
+    this.uri,
   });
 
   factory Request.fromJson(Map<String, dynamic> json) =>
@@ -49,31 +50,29 @@ class Request extends BaseModel with EquatableMixin {
 
   final String name;
   final RequestMethod method;
-  final Uri uri;
+  final String? uri;
+
+  Request copyWith({
+    String? id,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    String? name,
+    RequestMethod? method,
+    String? uri,
+  }) {
+    return Request(
+      id: id ?? this.id,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      name: name ?? this.name,
+      method: method ?? this.method,
+      uri: uri ?? this.uri,
+    );
+  }
 
   @override
-  List<Object> get props => [id];
+  List<Object?> get props => [id, name, method, uri];
 
   @override
   Map<String, dynamic> toJson() => _$RequestToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class Collection extends BaseModel {
-  Collection({
-    required super.id,
-    required super.createdAt,
-    required super.updatedAt,
-    required this.name,
-    this.requests = const [],
-  });
-
-  factory Collection.fromJson(Map<String, dynamic> json) =>
-      _$CollectionFromJson(json);
-
-  String name;
-  List<Request> requests;
-
-  @override
-  Map<String, dynamic> toJson() => _$CollectionToJson(this);
 }

@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:letterdude/app/screens/sidebar/activity.dart';
 import 'package:letterdude/app/screens/sidebar/collections.dart';
-
-import '../../modules/request/blocs/request_history/request_history_bloc.dart';
 
 class Sidebar extends StatefulWidget {
   const Sidebar({super.key});
@@ -37,56 +34,36 @@ class _SidebarState extends State<Sidebar> with TickerProviderStateMixin {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Expanded(
-          child: Column(
-            children: [
-              TabBar(
-                onTap: (value) {
-                  _pageController.jumpToPage(value);
-                },
-                controller: _tabController,
-                tabs: tabs
-                    .map(
-                      (tab) => Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              tab,
-                              style: Theme.of(context).textTheme.titleMedium,
-                            ),
-                          ),
-                        ],
+        TabBar(
+          onTap: (value) {
+            _pageController.jumpToPage(value);
+          },
+          controller: _tabController,
+          tabs: tabs
+              .map(
+                (tab) => Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        tab,
+                        style: Theme.of(context).textTheme.titleMedium,
                       ),
-                    )
-                    .toList(),
-              ),
-              Expanded(
-                child: PageView.builder(
-                  itemCount: pages.length,
-                  physics: const ClampingScrollPhysics(),
-                  controller: _pageController,
-                  itemBuilder: (context, index) {
-                    return pages[index];
-                  },
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
+              )
+              .toList(),
         ),
-        const Divider(height: 1),
-        Wrap(
-          alignment: WrapAlignment.end,
-          children: [
-            IconButton(
-              onPressed: () {
-                context.read<RequestHistoryBloc>().add(ClearRequestHistory());
-              },
-              icon: const Icon(Icons.delete_forever),
-              splashRadius: 18,
-              tooltip: 'Settings',
-            ),
-          ],
+        Expanded(
+          child: PageView.builder(
+            itemCount: pages.length,
+            physics: const ClampingScrollPhysics(),
+            controller: _pageController,
+            itemBuilder: (context, index) {
+              return pages[index];
+            },
+          ),
         ),
       ],
     );

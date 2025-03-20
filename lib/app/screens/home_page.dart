@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:letterdude/app/modules/collection/blocs/collections/collections_bloc.dart';
 import 'package:letterdude/app/modules/request/blocs/request/request_bloc.dart';
 import 'package:letterdude/app/modules/request/blocs/request_history/request_history_bloc.dart';
 import 'package:letterdude/app/screens/main_screen/main_screen.dart';
@@ -17,6 +18,9 @@ class HomePage extends StatelessWidget {
     return BasePage(
       child: MultiBlocProvider(
         providers: [
+          BlocProvider<CollectionsBloc>(
+            create: (_) => CollectionsBloc(),
+          ),
           BlocProvider<RequestBloc>(
             create: (_) => RequestBloc(),
           ),
