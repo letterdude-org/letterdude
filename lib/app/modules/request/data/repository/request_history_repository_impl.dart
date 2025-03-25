@@ -17,6 +17,11 @@ class RequestHistoryRepositoryImpl extends RequestHistoryRepository {
   }
 
   @override
+  Future<Request> getRequest(String id) {
+    return _cacheProvider.getRequest(id);
+  }
+
+  @override
   Future<void> saveRequest(Request request) {
     return _cacheProvider.saveRequest(request);
   }
