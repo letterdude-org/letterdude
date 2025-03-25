@@ -40,9 +40,7 @@ class HomePage extends StatelessWidget {
               WeightLimit(min: 0.8, max: 0.8),
             ],
           ),
-          onWeightChanged: (value) => {
-            print(value),
-          },
+          onWeightChanged: (value) {},
           children: const [
             Sidebar(),
             MainScreen(),

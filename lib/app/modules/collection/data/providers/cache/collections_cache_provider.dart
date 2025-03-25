@@ -2,6 +2,7 @@ import 'package:letterdude/app/modules/collection/data/models/collection_models.
 
 abstract class CollectionsCacheProvider {
   Future<List<Collection>> getCollections();
+  Future<Collection> getCollection(String id);
   Future<void> saveCollection(Collection collection);
   Future<void> deleteCollection(Collection collection);
   Future<void> updateCollection(Collection collection);

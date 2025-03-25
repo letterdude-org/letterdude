@@ -15,6 +15,16 @@ class RequestHistoryCacheProviderImpl implements RequestHistoryCacheProvider {
   }
 
   @override
+  Future<Request> getRequest(String id) async {
+    final request = await _historyStore.find(_database,
+        finder: Finder(filter: Filter.equals('id', id)));
+    if (request.isEmpty) {
+      throw Exception('Request not found');
+    }
+    return Request.fromJson(request.first.value);
+  }
+
+  @override
   Future<void> saveRequest(Request request) async {
     await _database.transaction((transaction) async {
       final existingRequest = await _historyStore.find(

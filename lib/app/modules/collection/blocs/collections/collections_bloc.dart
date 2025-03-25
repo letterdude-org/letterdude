@@ -39,7 +39,10 @@ class CollectionsBloc extends Bloc<CollectionsEvent, CollectionsState> {
 
     on<DeleteCollection>((event, emit) async {
       try {
-        await _collectionsRepository.deleteCollection(event.collection);
+        final collection = await _collectionsRepository.getCollection(
+          event.collection.id,
+        );
+        await _collectionsRepository.deleteCollection(collection);
         final collections = await _collectionsRepository.getCollections();
         emit(CollectionsSuccess(collections));
       } catch (e) {
@@ -52,7 +55,9 @@ class CollectionsBloc extends Bloc<CollectionsEvent, CollectionsState> {
 
     on<AddRequestToCollection>((event, emit) async {
       try {
-        final collection = event.collection;
+        final collection = await _collectionsRepository.getCollection(
+          event.collection.id,
+        );
         if (collection.requests.any((r) => r.name == event.requestName)) {
           emit(CollectionsError('Request already exists in collection'));
           return;
@@ -75,7 +80,12 @@ class CollectionsBloc extends Bloc<CollectionsEvent, CollectionsState> {
         );
         await _collectionsRepository.updateCollection(updatedCollection);
         final collections = await _collectionsRepository.getCollections();
-        emit(CollectionsSuccess(collections));
+        emit(CollectionsActionSuccess(
+          collections: collections,
+          action: CollectionsAction.add,
+          request: request,
+          collection: collection,
+        ));
       } catch (e) {
         logger.e('CollectionsBloc.AddRequestToCollection ERROR');
         logger.e(e);
@@ -87,7 +97,9 @@ class CollectionsBloc extends Bloc<CollectionsEvent, CollectionsState> {
     on<DeleteRequestFromCollection>((event, emit) async {
       try {
         final request = event.request;
-        final collection = event.collection;
+        final collection = await _collectionsRepository.getCollection(
+          event.collection.id,
+        );
         final requests = [...collection.requests];
         requests.remove(request);
         final updatedCollection = Collection(
@@ -99,7 +111,12 @@ class CollectionsBloc extends Bloc<CollectionsEvent, CollectionsState> {
         );
         await _collectionsRepository.updateCollection(updatedCollection);
         final collections = await _collectionsRepository.getCollections();
-        emit(CollectionsSuccess(collections));
+        emit(CollectionsActionSuccess(
+          collections: collections,
+          action: CollectionsAction.delete,
+          request: request,
+          collection: collection,
+        ));
       } catch (e) {
         logger.e('CollectionsBloc.DeleteRequestFromCollection ERROR');
         logger.e(e);
@@ -110,7 +127,10 @@ class CollectionsBloc extends Bloc<CollectionsEvent, CollectionsState> {
 
     on<UpdateCollectionRequest>((event, emit) async {
       try {
-        final existingRequest = event.collection.requests
+        final collection = await _collectionsRepository.getCollection(
+          event.collection.id,
+        );
+        final existingRequest = collection.requests
             .where((r) => r.id == event.request.id)
             .firstOrNull;
         if (existingRequest == null) {
@@ -118,21 +138,26 @@ class CollectionsBloc extends Bloc<CollectionsEvent, CollectionsState> {
           return;
         }
 
-        final updatedRequests = [...event.collection.requests];
+        final updatedRequests = [...collection.requests];
         final index = updatedRequests.indexOf(existingRequest);
         updatedRequests[index] = event.request;
 
         final updatedCollection = Collection(
-          id: event.collection.id,
-          name: event.collection.name,
-          createdAt: event.collection.createdAt,
+          id: collection.id,
+          name: collection.name,
+          createdAt: collection.createdAt,
           updatedAt: DateTime.now(),
           requests: updatedRequests,
         );
 
         await _collectionsRepository.updateCollection(updatedCollection);
         final collections = await _collectionsRepository.getCollections();
-        emit(CollectionsSuccess(collections));
+        emit(CollectionsActionSuccess(
+          collections: collections,
+          action: CollectionsAction.update,
+          request: event.request,
+          collection: collection,
+        ));
       } catch (e) {
         logger.e('CollectionsBloc.UpdateCollectionRequest ERROR');
         logger.e(e);

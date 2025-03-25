@@ -16,6 +16,16 @@ class CollectionsCacheProviderImpl implements CollectionsCacheProvider {
   }
 
   @override
+  Future<Collection> getCollection(String id) async {
+    final collection = await _collectionsStore.find(_database,
+        finder: Finder(filter: Filter.equals('id', id)));
+    if (collection.isEmpty) {
+      throw Exception('Collection not found');
+    }
+    return Collection.fromJson(collection.first.value);
+  }
+
+  @override
   Future<void> saveCollection(Collection collection) async {
     await _database.transaction((transaction) async {
       await _collectionsStore.add(transaction, collection.toJson());

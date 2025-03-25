@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:letterdude/app/modules/collection/blocs/collections/collections_bloc.dart';
 import 'package:letterdude/app/modules/collection/data/models/collection_models.dart';
+import 'package:letterdude/app/modules/request/blocs/request/request_bloc.dart';
 import 'package:letterdude/design_system/widgets/dialogs.dart';
 import 'package:letterdude/design_system/widgets/collection_widget.dart';
 
@@ -24,22 +25,34 @@ class _CollectionsState extends State<Collections> {
     return Column(
       children: [
         Expanded(
-          child: BlocBuilder<CollectionsBloc, CollectionsState>(
+          child: BlocConsumer<CollectionsBloc, CollectionsState>(
+            listener: (context, state) {
+              if (state is CollectionsActionSuccess) {
+                if (state.action == CollectionsAction.add) {
+                  context.read<RequestBloc>().add(LoadRequest(
+                        request: state.request,
+                        collection: state.collection,
+                      ));
+                }
+              }
+            },
             builder: (context, state) {
               return switch (state) {
-                CollectionsSuccess(:final collections) => collections.isEmpty
-                    ? const Center(
-                        child: Text('No collections yet'),
-                      )
-                    : ListView.builder(
-                        itemCount: collections.length,
-                        itemBuilder: (context, index) {
-                          final collection = collections[index];
-                          return CollectionWidget(
-                            collection: collection,
-                          );
-                        },
-                      ),
+                CollectionsSuccess(:final collections) ||
+                CollectionsActionSuccess(:final collections) =>
+                  collections.isEmpty
+                      ? const Center(
+                          child: Text('No collections yet'),
+                        )
+                      : ListView.builder(
+                          itemCount: collections.length,
+                          itemBuilder: (context, index) {
+                            final collection = collections[index];
+                            return CollectionWidget(
+                              collection: collection,
+                            );
+                          },
+                        ),
                 CollectionsInProgress() => const Center(
                     child: CircularProgressIndicator(),
                   ),

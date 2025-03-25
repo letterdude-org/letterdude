@@ -17,6 +17,11 @@ class CollectionsRepositoryImpl extends CollectionsRepository {
   }
 
   @override
+  Future<Collection> getCollection(String id) {
+    return _cacheProvider.getCollection(id);
+  }
+
+  @override
   Future<void> saveCollection(Collection collection) {
     return _cacheProvider.saveCollection(collection);
   }
